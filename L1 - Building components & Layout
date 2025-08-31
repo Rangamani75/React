@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+	let root = ReactDOM.createRoot(document.getElementById("root"))
+    let lists = ["1 lorem ipsum","Lorem , ipsum dolor","Monthly updates"]
+	function Header(){
+		return(
+			<>
+			<div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"30px",}}>
+				<h1>
+					The Right Plan for <br/><span style={{color:"blue"}}>Your Business</span>
+					
+					
+					</h1>
+					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minus ducimus quisquam commodi officiis quod in suscipit! Fugiat aspernatur consequatur ullam incidunt commodi, blanditiis, error et nam culpa asperiores veniam consectetur eum itaque voluptates amet saepe soluta ipsam exercitationem tempora neque ex, perspiciatis eaque voluptate? Amet, magni, corporis iste maxime doloremque eligendi possimus dolor fuga numquam quis vel consectetur doloribus dignissimos molestiae placeat! Dolor, obcaecati. Voluptatibus facilis explicabo maxime magnam quae cum aspernatur atque perferendis, vero sed ab quibusdam adipisci ratione enim quia vitae qui labore beatae quo non, omnis est aliquid quidem repellendus. Eum, repellendus magnam sit soluta vitae enim.
+						</p>
+				
+				
+				</div>
+			</>
+		)
+	}
+	function Nav({title,price}){
+		return(
+			<>
+			<div style={{display:"flex",justifyContent:"space-evenly",alignItems:"center",gap:"30px",}}>
+				<h3>{title}</h3>
+				<ul>{lists.map((item) => <li>✅${item}</li>   )} </ul>
+				<h1>{price}</h1>
+				<button>Get Started</button>
+
+				</div>
+			</>
+		)
+	}
+
+function App(){
+	return(
+		<>
+		<Header/>
+		<Nav title="Fisrt" price="free"/>
+		<Nav title="Lorem" price="$30"/>
+		<Nav title = "Kahhhj" price="$77"/>
+		</>
+	)
+}
+root.render(<App/>)
+  
+</script>
+
+
+</html>
