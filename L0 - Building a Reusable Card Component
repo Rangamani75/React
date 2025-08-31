@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+
+function Card({title,children}){
+	return(
+		<>
+		<h1>Title: {title}</h1>
+		<div>{children}</div>
+		</>
+	)
+}
+function APP(){
+	return(
+		<>
+		<Card title="Main"/><br/>
+		<Card title="MAin 2">
+			<h3>Welcome to here</h3>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. In vitae molestiae doloremque rem animi eveniet, consequatur corporis ab ut veritatis sit ea culpa sed id nulla, soluta tempore tempora magni. Porro necessitatibus nobis aliquam debitis vero quaerat sunt, libero magnam laudantium, assumenda praesentium aliquid, sequi mollitia a nemo? Ea neque corporis eligendi unde optio, voluptates ab quia asperiores iste, quam enim laudantium cupiditate quasi? Provident vel ex vitae ad tenetur veritatis nihil minima animi fugit dignissimos nemo, optio eligendi, fuga ipsa aut consequatur adipisci eius obcaecati sit aliquam doloremque mollitia amet. Voluptates quasi modi, quod harum voluptatem nostrum cum quaerat!</p></Card>
+		<br/>
+		<Card title="Import">
+
+			<div>
+				<ol>
+					
+					
+					<li>One</li>
+					<li>item1</li>
+					<li>item2</li>
+					<li>item3</li></ol>
+				
+				
+				</div>
+
+			</Card>
+		</>
+	)
+}
+let root = ReactDOM.createRoot(document.getElementById("root"));
+root.render(<APP/>)
+  
+</script>
+
+
+</html>
