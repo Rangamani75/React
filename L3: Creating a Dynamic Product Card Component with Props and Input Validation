@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Dynamic  Product Card</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+	let root = ReactDOM.createRoot(document.getElementById("root"))
+
+	let styles={
+		image:{
+			maxWidth:"100%",
+			border:"2px solid black",
+			borderRadius:"20px",
+			marginLeft:"20px",
+			marginRight:"20px"
+		},
+		card:{
+			display:"flex",
+			flexDirection:"column",
+			 //border:"2px solid",
+			borderRadius:"20px",
+			justifyContent:"center",
+			alignItems:"center",
+			padding:"5px",
+			maxWidth:"50%",
+			boxShadow:"rgba(100, 100, 111, 0.2) 0px 7px 29px 0px",
+		},
+		div:{
+			display:"flex",
+			flexDirection:"row",
+			gap:"20px",
+			width:"90%",
+			
+			
+
+		},
+		font:{
+			color:"blue",
+		
+		}
+
+	}
+
+
+     function ProductCard(props){
+		return(
+			<>
+			<div style={styles.card}>
+				<img src={`${props.image}`} style={styles.image} />
+				<h3>{props.name}</h3>
+				<p><b>Price:</b>{props.price}</p>
+				<p><b>Discount:</b>{props.discount}</p>
+
+				
+				</div>
+			</>
+		)
+	 }
+	 function App(){
+		let [products,setProducts]=React.useState([]);
+		let [item,setItem] = React.useState({name:"",price:"",image:"",discount:""})
+		function handleChange(e){
+			let {name,value} = e.target;
+			setItem({...item,[name]:value});
+
+		}
+		function addProduct(){
+			if(!item.name || !item.price || !item.image || !item.discount) 
+			return alert("Enter valid details")
+			setProducts([...products,item])
+			console.log("Item Added Sucessfully!!")
+			setItem({name:"",price:"",image:"",discount:""})
+
+		}
+		return(
+			<>
+			<h2>Add New Products</h2>
+
+			<input type="text" value={item.name} name="name" placeholder="Enter  the title" onChange={handleChange}  />
+			<input type="text" value={item.price} name="price" onChange={handleChange} placeholder="Enter the Price:" />
+			<input type="text" value={item.image}  name="image" placeholder="Enter Image URL" onChange={handleChange} />
+			<input type="text" value={item.discount} name="discount" placeholder="Enter the Discount value" onChange={handleChange}  />
+            <button onClick={addProduct}>Add Product</button>
+			<div style={styles.div}>
+				
+										<ProductCard name="Sai Pallavi" price="Infinity, The World" image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzQ5gyQnxrM3UounoX-XbVk3ftP2ZD7fEstQ&s" discount="No Chance"/>
+			<ProductCard name="earbuds" price="200" image="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTkjujXf6feNM081FNTFRY_oMiFyMJQefJTh53NDtObc0D2X4N1x9ywSgXztljKsqN7oJ2icThw-S6FitTlJLA2yrc2UfNak1O0fj5RZHD6kngBQpV0JacyhQ" discount="20"/>
+             {
+				products && products.map((ele,idx)=>(
+					<div key={idx}>
+						<ProductCard name={ele.name} price={ele.price} image={ele.image} discount={ele.discount}/>
+						</div>
+				))
+			 }
+				
+				
+				</div>
+
+			</>
+		)
+	 }
+
+
+	
+  
+
+  root.render(<App/>)
+</script>
+
+
+</html>
