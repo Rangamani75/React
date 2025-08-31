@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+	const blogs = [
+  { title: "Mastering JavaScript", content: "JavaScript is a powerful language for web development." },
+  { title: "React in Indian Startups", content: "React is widely used in many Indian tech companies." },
+  { title: "Career in Web Development", content: "Explore job roles and growth in web development." },
+];
+const {useState} =React;
+function GenList(){
+       const[blog,setBlog]=useState("")
+	
+	    return(
+
+<div>
+	<h2>Blog Titles are here....</h2>
+	<ul>
+	  {blogs.map((item,idx)=>(<li onClick={()=>setBlog(item)}key={idx}>{item.title}</li>))}
+	</ul>
+
+	<div>{blog?(
+		<div>
+            <h3>{blog.title}</h3>
+            <p>{blog.content}</p>
+			<div></div>
+          </div>
+	):(
+		<p> Select a blog</p>
+		
+	)}
+	</div>
+	
+	</div>
+
+		)
+}
+
+	let root = ReactDOM.createRoot(document.getElementById("root"))
+	
+
+root.render(<GenList/>)
+  
+</script>
+
+
+</html>
