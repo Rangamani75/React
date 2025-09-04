@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/axios@1.6.7/dist/axios.min.js"></script>
+ <style>
+	button{
+		color:white;
+		padding:10px;
+		margin:5px;
+		border-radius:10px;
+		background-color:grey;
+		font-weight:bold;
+	}
+	input,select{
+		border-radius:20px;
+		text-align:center;
+	}
+ </style>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+	let root=ReactDOM.createRoot(document.getElementById("root"))
+    function App(){
+		let{useState}=React;
+		let [data,setData]=  useState([])
+		let [loading,setLoading] =useState(false)
+		let [error,setError] =useState(null)
+		let [message,setMessage] = useState(false)
+		let [search,setSearch]=useState("")
+		let [sortvalue,setSort]=useState("")
+		let [filter,setFilter] = useState("")
+		let [theme,setTheme]=useState(localStorage.getItem("theme") ||"light")
+		async function fetchData(){
+			setLoading(true)
+			setMessage(false)
+			try{
+			let res = await axios.get("https://api.imgflip.com/get_memes")
+			//let dat =Object.entries(res.data).map((id,item)=>({id,...item}))
+			setData(res.data.data.memes)
+			setLoading(false)
+			setError(null)
+			
+			}catch(err){
+				setLoading(false)
+				setError(err.message)
+			}
+			
+		}
+let processedData = [...data];
+
+// Search
+if (search.trim() !== "") {
+  processedData = processedData.filter((item) =>
+    item.name.toLowerCase().includes(search.toLowerCase())
+  );
+}
+
+// Filter
+if (filter === "width-500") {
+  processedData = processedData.filter((item) => item.width > 500);
+} else if (filter === "height-500") {
+  processedData = processedData.filter((item) => item.height > 500);
+}
+
+// Sort
+if (sortvalue === "name-asc") {
+  processedData.sort((a, b) => a.name.localeCompare(b.name));
+} else if (sortvalue === "name-dsc") {
+  processedData.sort((a, b) => b.name.localeCompare(a.name));
+} else if (sortvalue === "width-asc") {
+  processedData.sort((a, b) => a.width - b.width);
+} else if (sortvalue === "width-dsc") {
+  processedData.sort((a, b) => b.width - a.width);
+}
+
+		
+		function handleChange(e){
+             setTheme(e.target.value)
+			 let newTheme = e.target.value
+			 console.log(theme)
+			 localStorage.setItem("theme",newTheme)
+		}
+		function clearAll(){
+			setData([])
+			setMessage("All cleared! Freshly fetch the data")
+		}
+		function resetAll() {
+  setSearch("");
+  setSort("");
+  setFilter("");
+}
+
+		
+		return(
+			<>
+			<div></div>
+			<div style={{
+    backgroundColor: theme === "light" ? "white" : "black",
+    color: theme === "light" ? "black" : "white", height:"1000vh",
+  }}>
+			<h1 style={{textAlign:"center",color:"orange"}}>Welcome to Meme Explorer App</h1>
+			<div style={{display:"flex", justifyContent:"space-around",padding:"20px",backgroundColor:"brown",width:"90%",margin:"auto"}}>
+				<select name="theme" value={theme} onChange={handleChange}>
+					<option value="light">Light</option>
+					<option value="dark">Dark</option>
+					</select>
+			<button onClick={fetchData}>Load Products</button>
+			<button onClick={clearAll}>Clear All</button>
+			<input type="text" name="search" value={search} placeholder="Search for a meme"onChange={(e)=>setSearch(e.target.value)}/>
+			<select name="sort" value={sortvalue} onChange={(e)=>setSort(e.target.value)}>
+				 <option value="">Sort By</option>
+				<option value="name-asc">Names in ASC</option>
+				 <option value="name-dsc"> Names in DSx</option>
+				 <option value="width-asc">Width Inc</option>
+				 <option value="width-dsc">Width DEC</option>
+				</select>
+				<select name="filter" value={filter} onChange={(e)=>setFilter(e.target.value)}>
+					<option value="">Filter By</option> 
+					<option value="width-500">Width:Above 500</option>
+					 <option value="height-500">Height:Above 500</option>
+					</select>
+					<button onClick={resetAll}>Reset</button>
+
+			</div>
+			{loading && <p style={{textAlign:"center",color:"blue"}}>Loading......</p>}
+			{error && <p style={{textAlign:"center",color:"red"}}>{error}</p>}
+           	{message && <p style={{textAlign:"center",color:"orange"}}>{message}</p>}
+             {<p>{theme}</p>}
+			<ul>
+				
+  <div
+    style={{
+      width: "90%",
+      margin: "auto",
+      display: "grid",
+      gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+      gap: "20px",
+    }}
+  > {processedData.length==0?<p>No Memes Found</p>:
+    processedData.map((item) => (
+      <div
+        key={item.id}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          border: "2px none",
+		  borderRadius:"10px",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "5px",
+		  boxShadow:" rgba(0, 0, 0, 0.35) 0px 5px 15px",
+		  height:"auto",
+        }}
+      >
+        <img style={{ width: "100%", height: "200px", objectFit: "contain" }} src={item.url} alt={item.name} />
+        <h3>Title: {item.name}</h3>
+      </div>
+    ))}
+  </div>
+</ul>
+              </div>
+			</>
+		)
+	} 
+	root.render(<App/>)
+</script>
+
+
+</html>
