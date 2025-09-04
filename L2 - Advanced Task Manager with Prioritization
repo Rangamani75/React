@@ -1,0 +1,151 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+
+let root = ReactDOM.createRoot(document.getElementById("root"));
+let {useState} = React;
+
+
+
+ function AdvancedTaskAPP(){
+
+	let [allTasks,setTasks] = useState([]);
+	let [task,setTask] = useState({title:"",priority:"low"});
+	let [filter,setFilter] = useState({priority:"all",status:"all",sort:"high"})
+    let finalTasks = allTasks.filter((task) => {
+  // Filter by priority
+  if (filter.priority !== "all" && task.priority !== filter.priority) return false;
+
+  // Filter by status
+  if (filter.status !== "all") {
+    if (filter.status === "completed" && task.status !== true) return false;
+    if (filter.status === "pending" && task.status !== false) return false;
+  }
+
+  return true;
+});
+
+// Sort logic
+if (filter.sort === "high") {
+  finalTasks.sort((a, b) => {
+    const order = { high: 3, medium: 2, low: 1 };
+    return order[b.priority] - order[a.priority]; // Descending
+  });
+} else if (filter.sort === "low") {
+  finalTasks.sort((a, b) => {
+    const order = { high: 3, medium: 2, low: 1 };
+    return order[a.priority] - order[b.priority]; // Ascending
+  });
+}
+
+	function handleChange(e){
+		let{name,value} = e.target;
+		setTask({...task,[name]:value,status:false,id:crypto.randomUUID()});
+	}
+	function handleSubmit(e){
+		e.preventDefault();
+				if(task.title.trim("")==="") return alert("Enter valid Task");
+
+		setTasks([...allTasks,task])
+		console.log("Task Added!",task)
+		setTask({title:"",priority:"low"})
+
+	}
+	function toggleStatus(id){
+	setTasks(allTasks.map((ele)=>{
+		if(ele.id===id) return {...ele,status:!ele.status}
+		else return ele
+	}))
+}
+function deleteTask(id){
+	setTasks(allTasks.filter((ele)=>ele.id!==id))
+}
+function handleFilter(e){
+	let {name,value} = e.target;
+	setFilter({...filter,[name]:value})
+	console.log(filter)
+}
+
+
+
+
+return(
+	<>
+
+
+		
+		<h1>Welcome to Advanced Task MAnager APP</h1>
+
+		<h2>Add New Task</h2>
+		<form onSubmit={handleSubmit}>
+			<input type="text" name="title" placeholder="Enter Task title:" value={task.title} onChange={handleChange}/>
+			<select name="priority" value={task.priority} onChange={handleChange}>Select Task Priority:
+				<option value="low">Low</option>
+				<option value="medium">Medium</option>
+				<option value="high">High</option>
+				</select>
+			<button type="submit">Add Task</button>
+		
+ </form>
+ <div>
+	<label >Filter By Priority</label>
+ 
+	<select name="priority" value={filter.priority} onChange={handleFilter}> <option value="all">All</option>
+ <option value="low">Low</option>
+ <option value="medium">Medium</option>
+ <option value="high">High</option></select>
+ <label >Filter By Status</label>
+ <select name="status" value={filter.status} onChange={handleFilter}><option value="all">All</option>
+ <option value="completed">Completed</option>
+ <option value="pending">Pending</option></select>
+ <label >SortBy:</label>
+ <select name="sort" value={filter.sort} onChange={handleFilter}>
+	 <option value="high">High-Low</option>
+	<option value="low">Low-High</option> </select>
+</div>
+
+ <h3>My tasks....</h3>
+ <div>
+	{console.log(allTasks)}
+	{finalTasks && finalTasks.map((ele,idx)=>(
+		<div key={idx}>
+			<h2>Title:{ele.title}</h2>
+			<p><b>Priority:</b>{ele.priority.toUpperCase()}</p>
+			<p><b>Status:</b>{ele.status?"Completed":"Pending"} <button onClick={()=>{toggleStatus(ele.id)}}>Mark as {ele.status?"Pending":"Completed"}</button></p>
+			<button onClick={()=>{deleteTask(ele.id)}}>Delete</button>
+			</div>
+	))}
+	
+	</div>
+
+	</>
+)
+	
+
+ }
+
+
+ root.render(<AdvancedTaskAPP/>)
+
+
+
+  
+</script>
+
+
+</html>
