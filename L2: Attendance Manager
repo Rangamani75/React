@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+	let root = ReactDOM.createRoot(document.getElementById("root"));
+    let styles={
+		
+	}
+    function Attendance(){
+		let [data,setData] = React.useState([{id:1,name:"Mahesh",present:true},
+           {id:2,name:"Neel",present:true},{id:3,name:"Anjali",present:true},
+		   {id:9,name:"Nimmy",present:false},{id:6,name:"Evaro",present:false}
+
+		])
+
+		let[filter,setFilter] = React.useState("")
+		function handleChange(e){
+          setFilter(e.target.value)
+		}
+		function toggle(id){
+
+			setData(data.map((ele)=>
+				ele.id===id? {...ele,present:!ele.present}:ele
+			))
+
+		}
+
+		let filteredData = data.filter((student) => {
+    if (filter === "present") return student.present;
+    if (filter === "absent") return !student.present;
+    return true; // "All"
+  });
+
+		let [student,setStudent] = React.useState({id:"",name:"",present:""})
+
+		return(
+			<>
+            {data && <div><h3>All Students</h3>
+				<select name="filter" onChange={handleChange}>Select the students
+					<option value="">All</option>
+					<option value="present">Present</option>
+					<option value="absent">Absent</option>
+					</select>
+
+				{filteredData.map((ele,idx)=>(
+					<div key={ele.id} style={{backgroundColor:ele.present?"green":"red",}}>
+						<p><b>Name:</b>{ele.name}</p>
+						<p><b>Attendance Status:</b>{ele.present?"Present":"Absent"}</p>
+						<button onClick={()=>{toggle(ele.id)}}>Mark as {ele.present?"Absent":"Present"}</button>
+						</div>
+				))}
+				</div>  }
+				        <p><b>Total Present Students:</b> {data.filter(s => s.present).length}</p>
+
+
+
+			</>
+		)
+	}
+
+root.render(<Attendance/>)
+  
+</script>
+
+
+</html>
