@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+	<div id="root">
+		this is dom heading
+	</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+  
+let root = ReactDOM.createRoot(document.getElementById("root"));
+function TodoApp(){
+	let[tasks,SetTasks] = React.useState(["Buy milk", "Study React"])
+	let [item,setItem] = React.useState("");
+	function clear(){
+		SetTasks([]);
+	}
+	function add(e){
+		if(item.trim(" ").length==0) return alert("Enter a valid task");
+		SetTasks([...tasks,item])
+		setItem("")
+		console.log("Item Added Suceesfully!!");
+	}
+	
+	return(
+		<>
+		<input type="text" placeholder="New Task"  value={item} name="item" onChange={(e)=>{setItem(e.target.value)}}/>
+		<button onClick={add}>Add New Task</button>
+		<button onClick={clear}>Clear All Tasks</button>
+		<h1>All Tasks</h1>
+				{tasks.length==0 && <h2> No Tasks Available </h2>}
+
+		{tasks && <ol>
+			{
+				tasks.map((ele,idx)=>(
+					<li key={idx}>{ele}</li>
+				))
+			}
+			</ol>  }
+		</>
+	)
+}
+root.render(<TodoApp/>)
+</script>
+
+
+</html>
