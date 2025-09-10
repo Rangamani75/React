@@ -1,24 +1,14 @@
+import React, { createContext, useState } from 'react';
 
-import React, { createContext, useContext, useState } from "react";
+export const ThemeContext = createContext();
 
-export let ThemeContext = createContext();
+export const ThemeContextProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
-export default function Theme({children}){
-
-let [theme,setTheme] = useState("light")
-
-function toggleTheme(){
-	if(theme=="light"){
-		setTheme("dark")
-	}else{
-		setTheme("light")
-	}
-}
-return(
-	<ThemeContext.Provider value={{theme,toggleTheme}}>
-		{children}
-	</ThemeContext.Provider>
-)
-
-
-}
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};

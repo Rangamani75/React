@@ -1,15 +1,15 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import Theme from './ThemeContext.jsx'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { AuthContextProvider } from './AuthContext';
+import { ThemeContextProvider } from './ThemeContext';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Theme>
-<App />
-
-    </Theme>
-    
-  </StrictMode>,
-)
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <AuthContextProvider>
+      <ThemeContextProvider>
+        <App />
+      </ThemeContextProvider>
+    </AuthContextProvider>
+  </React.StrictMode>
+);

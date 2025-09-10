@@ -1,32 +1,53 @@
-
-import { useContext, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { ThemeContext } from './ThemeContext'
-import Card from './Card'
+import { ChakraProvider, Box, Flex, Grid, Button } from '@chakra-ui/react';
+import { useContext } from 'react';
+import { AuthContext } from './AuthContext';
+import { ThemeContext } from './ThemeContext';
 
 function App() {
-
-  let {theme,toggleTheme} = useContext(ThemeContext);
-
-  
-  
+  const { isLoggedIn, toggleAuth } = useContext(AuthContext);
+  const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
-    <><div style={{width:"100%",backgroundColor:theme=="light"?"white":"black"}}>
-    <button onClick={toggleTheme}>Change Theme</button>
-      <p>{theme}</p>
-      <Child/>
-      <Card/>
-      </div>
-    </>
-  )
+    <ChakraProvider>
+      <Flex
+        as="nav"
+        p="4"
+        bg={theme === 'light' ? 'gray.100' : 'gray.700'}
+        justifyContent="space-between"
+      >
+        <Button onClick={toggleAuth}>
+          {isLoggedIn ? 'Log Out' : 'Log In'}
+        </Button>
+        <Button onClick={toggleTheme}>
+          Toggle to {theme === 'light' ? 'Dark' : 'Light'} Theme
+        </Button>
+      </Flex>
+      <Grid
+        templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
+        gap="4"
+        p="4"
+      >
+        {['Card 1', 'Card 2', 'Card 3'].map((card) => (
+          <Box
+            key={card}
+            p="4"
+            shadow="md"
+            bg={theme === 'light' ? 'gray.200' : 'gray.600'}
+          >
+            {card}
+          </Box>
+        ))}
+      </Grid>
+      <Box
+        as="footer"
+        p="4"
+        bg={theme === 'light' ? 'gray.300' : 'gray.800'}
+        textAlign="center"
+      >
+        Footer Content
+      </Box>
+    </ChakraProvider>
+  );
 }
 
-function Child(){
-	let {theme} = useContext(ThemeContext)
-	console.log(theme)
-}
-
-export default App
+export default App;
