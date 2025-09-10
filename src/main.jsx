@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
-import { AuthContextProvider } from './AuthContext';
-import { ThemeContextProvider } from './ThemeContext';
+import App from './App.jsx';
+import { NotificationProvider } from './NotificationContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthContextProvider>
-      <ThemeContextProvider>
-        <App />
-      </ThemeContextProvider>
-    </AuthContextProvider>
+    <NotificationProvider>
+      <App />
+    </NotificationProvider>
   </React.StrictMode>
 );
