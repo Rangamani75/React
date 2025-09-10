@@ -1,21 +1,32 @@
-import { useState } from 'react'
 
+import { useContext, useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
 import './App.css'
-import ProfileCard from './ProficeCard'
-
+import { ThemeContext } from './ThemeContext'
+import Card from './Card'
 
 function App() {
-  const [count, setCount] = useState(0)
+
+  let {theme,toggleTheme} = useContext(ThemeContext);
+
+  
+  
 
   return (
-    <>
-    <div style={{display:"flex", gap:"20px"}}>
-      <ProfileCard/>
-      <ProfileCard  name="Mahesh" age={19} bio="Lorem ipsum, dolor sit amet consectetur adipisicing elit. Atque nemo mollitia labore molestiae deserunt! Nostrum sunt facilis ex dolores iste aliquam est similique amet. Expedita iure velit commodi quam blanditiis dignissimos mollitia placeat nemo quasi dolor, quae nobis. Commodi odit sit, voluptatibus maiores accusamus alias ea adipisci possimus eos tempore ducimus molestiae cumque, obcaecati est expedita in, assumenda dicta ex unde enim quas deleniti. Ad ratione possimus incidunt animi, suscipit perspiciatis, beatae eius, porro pariatur maiores placeat deleniti odit ducimus in velit veniam delectus atque dolorem officia eos ex facere tempore laudantium? Molestiae consectetur aliquid eaque delectus nisi. Id, dicta.
-"/>
-</div>
+    <><div style={{width:"100%",backgroundColor:theme=="light"?"white":"black"}}>
+    <button onClick={toggleTheme}>Change Theme</button>
+      <p>{theme}</p>
+      <Child/>
+      <Card/>
+      </div>
     </>
   )
+}
+
+function Child(){
+	let {theme} = useContext(ThemeContext)
+	console.log(theme)
 }
 
 export default App
