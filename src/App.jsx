@@ -1,25 +1,24 @@
-import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
-import Home from "./pages/Home.jsx";
-import Profile from "./pages/Profile.jsx";
-import Settings from "./pages/Settings.jsx";
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
+import {Routes,Route} from "react-router-dom"
+import Home from './Home'
+import MovieDetails from './MoviDetails'
 
 function App() {
-  const router = createBrowserRouter([
-    { path: "/", element: <Home /> },
-    { path: "/profile", element: <Profile /> },
-    { path: "/settings", element: <Settings /> }
-  ]);
-
+  
   return (
-    <div>
-      <nav style={{ padding: "1rem", background: "#eee" }}>
-        <Link to="/" style={{ marginRight: "1rem" }}>Home</Link>
-        <Link to="/profile" style={{ marginRight: "1rem" }}>Profile</Link>
-        <Link to="/settings">Settings</Link>
-      </nav>
-      <RouterProvider router={router} />
-    </div>
-  );
+    <>
+    <h2>Welcome to the Move Dashboard</h2>
+    <Routes>
+      <Route path="/" element={<Home/>}/>
+      <Route path="/movies/:movie" element={<MovieDetails/>}/>
+      
+    </Routes>
+      
+    </>
+  )
 }
 
-export default App;
+export default App
